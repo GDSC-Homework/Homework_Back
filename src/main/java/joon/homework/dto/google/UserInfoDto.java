@@ -1,8 +1,10 @@
 package joon.homework.dto.google;
 
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class UserInfoDto {
 
     private String iss;

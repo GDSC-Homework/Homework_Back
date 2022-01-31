@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="joon.homework.HomeworkApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-01-31T09:53:33" hostname="gonghyeogjun-ui-MacBookPro.local" time="0.089">
+  <properties/>
+  <testcase name="contextLoads()" classname="joon.homework.HomeworkApplicationTests" time="0.089"/>
+  <system-out><![CDATA[18:53:29.506 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating CacheAwareContextLoaderDelegate from class [org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate]
+18:53:29.515 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating BootstrapContext using constructor [public org.springframework.test.context.support.DefaultBootstrapContext(java.lang.Class,org.springframework.test.context.CacheAwareContextLoaderDelegate)]
+18:53:29.547 [Test worker] DEBUG org.springframework.test.context.BootstrapUtils - Instantiating TestContextBootstrapper for test class [joon.homework.HomeworkApplicationTests] from class [org.springframework.boot.test.context.SpringBootTestContextBootstrapper]
+18:53:29.557 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [joon.homework.HomeworkApplicationTests], using SpringBootContextLoader
+18:53:29.561 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [joon.homework.HomeworkApplicationTests]: class path resource [joon/homework/HomeworkApplicationTests-context.xml] does not exist
+18:53:29.562 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Did not detect default resource location for test class [joon.homework.HomeworkApplicationTests]: class path resource [joon/homework/HomeworkApplicationTestsContext.groovy] does not exist
+18:53:29.562 [Test worker] INFO org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [joon.homework.HomeworkApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+18:53:29.563 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [joon.homework.HomeworkApplicationTests]: HomeworkApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+18:53:29.599 [Test worker] DEBUG org.springframework.test.context.support.ActiveProfilesUtils - Could not find an 'annotation declaring class' for annotation type [org.springframework.test.context.ActiveProfiles] and class [joon.homework.HomeworkApplicationTests]
+18:53:29.647 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [/Users/orijoon98/Desktop/Workspace/Homework_Back/build/classes/java/main/joon/homework/HomeworkApplication.class]
+18:53:29.648 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration joon.homework.HomeworkApplication for test class joon.homework.HomeworkApplicationTests
+18:53:29.732 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - @TestExecutionListeners is not present for class [joon.homework.HomeworkApplicationTests]: using defaults.
+18:53:29.733 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+18:53:29.749 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@7249dadf, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@4362d7df, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@66238be2, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@1c25b8a7, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@200606de, org.springframework.test.context.support.DirtiesContextTestExecutionListener@750fe12e, org.springframework.test.context.transaction.TransactionalTestExecutionListener@f8908f6, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3e587920, org.springframework.test.context.event.EventPublishingTestExecutionListener@2ef8a8c3, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@24f43aa3, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@63fd4873, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@1e11bc55, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@7544a1e4, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@70e0accd, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@7957dc72]
+18:53:29.752 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: context [DefaultTestContext@38875e7d testClass = HomeworkApplicationTests, testInstance = [null], testMethod = [null], testException = [null], mergedContextConfiguration = [WebMergedContextConfiguration@1e886a5b testClass = HomeworkApplicationTests, locations = '{}', classes = '{class joon.homework.HomeworkApplication}', contextInitializerClasses = '[]', activeProfiles = '{}', propertySourceLocations = '{}', propertySourceProperties = '{org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true}', contextCustomizers = set[org.springframework.boot.test.autoconfigure.actuate.metrics.MetricsExportContextCustomizerFactory$DisableMetricExportContextCustomizer@2a7686a7, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizerFactory$Customizer@c1bd0be, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@4b3a45f1, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@20a14b55, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@6035b93b, org.springframework.boot.test.context.SpringBootTestArgs@1, org.springframework.boot.test.context.SpringBootTestWebEnvironment@5167f57d], resourceBasePath = 'src/main/webapp', contextLoader = 'org.springframework.boot.test.context.SpringBootContextLoader', parent = [null]], attributes = map['org.springframework.test.context.web.ServletTestExecutionListener.activateListener' -> true]], class annotated with @DirtiesContext [false] with mode [null].
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v2.6.3)
+
+2022-01-31 18:53:30.066  INFO 2284 --- [    Test worker] joon.homework.HomeworkApplicationTests   : Starting HomeworkApplicationTests using Java 11.0.13 on gonghyeogjun-ui-MacBookPro.local with PID 2284 (started by orijoon98 in /Users/orijoon98/Desktop/Workspace/Homework_Back)
+2022-01-31 18:53:30.067  INFO 2284 --- [    Test worker] joon.homework.HomeworkApplicationTests   : No active profile set, falling back to default profiles: default
+2022-01-31 18:53:30.508  INFO 2284 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-01-31 18:53:30.509  INFO 2284 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-01-31 18:53:30.526  INFO 2284 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2022-01-31 18:53:30.674  INFO 2284 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-01-31 18:53:30.675  INFO 2284 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-01-31 18:53:30.827  INFO 2284 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 149 ms. Found 1 JPA repository interfaces.
+2022-01-31 18:53:30.835  INFO 2284 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2022-01-31 18:53:30.836  INFO 2284 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2022-01-31 18:53:30.842  INFO 2284 --- [    Test worker] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface joon.homework.repository.UserRepository. If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository.
+2022-01-31 18:53:30.842  INFO 2284 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2022-01-31 18:53:31.367  INFO 2284 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-01-31 18:53:31.410  INFO 2284 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.4.Final
+2022-01-31 18:53:31.559  INFO 2284 --- [    Test worker] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-01-31 18:53:31.642  INFO 2284 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-01-31 18:53:31.801  INFO 2284 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-01-31 18:53:31.826  INFO 2284 --- [    Test worker] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+Hibernate: 
+    
+    drop table if exists user
+Hibernate: 
+    
+    create table user (
+       id bigint not null auto_increment,
+        created_at datetime(6) not null,
+        updated_at datetime(6) not null,
+        email varchar(255) not null,
+        name varchar(255),
+        picture varchar(255),
+        role varchar(255) not null,
+        primary key (id)
+    ) engine=InnoDB
+Hibernate: 
+    
+    alter table user 
+       add constraint UK_ob8kqyqqgmefl0aco34akdtpe unique (email)
+2022-01-31 18:53:32.343  INFO 2284 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-01-31 18:53:32.350  INFO 2284 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-01-31 18:53:32.940  WARN 2284 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-01-31 18:53:33.250  INFO 2284 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@20040c6e, org.springframework.security.web.context.SecurityContextPersistenceFilter@fc6cac6, org.springframework.security.web.header.HeaderWriterFilter@1d77d9c6, org.springframework.security.web.authentication.logout.LogoutFilter@43e9a8a2, joon.homework.config.JwtRequestFilter@1c41931a, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@9e092b5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4b99f2ed, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@33efa7d4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@cbea0df, org.springframework.security.web.session.SessionManagementFilter@61a17f3, org.springframework.security.web.access.ExceptionTranslationFilter@88fc9cb, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@c22cf4d]
+2022-01-31 18:53:33.809  INFO 2284 --- [    Test worker] joon.homework.HomeworkApplicationTests   : Started HomeworkApplicationTests in 4.024 seconds (JVM running for 5.007)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

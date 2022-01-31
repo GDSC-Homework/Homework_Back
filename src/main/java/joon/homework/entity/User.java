@@ -18,10 +18,7 @@ import java.time.LocalDateTime;
 public class User extends BaseEntity {
 
     @Column
-    private String givenName;
-
-    @Column
-    private String familyName;
+    private String name;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -34,9 +31,8 @@ public class User extends BaseEntity {
     private Role role;
 
     @Builder
-    public User(String givenName, String familyName, String email, String picture, Role role) {
-        this.givenName = givenName;
-        this.familyName = familyName;
+    public User(String name, String email, String picture, Role role) {
+        this.name = name;
         this.email = email;
         this.picture = picture;
         this.role = role;
