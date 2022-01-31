@@ -3,6 +3,7 @@ package joon.homework.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import joon.homework.dto.google.UserInfoDto;
+import joon.homework.exception.IdTokenException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -43,7 +44,7 @@ public class GoogleService {
         } catch (RestClientException | JsonProcessingException e) {
             log.error(e.getMessage());
 
-            throw new RuntimeException();
+            throw new IdTokenException();
         }
     }
 }

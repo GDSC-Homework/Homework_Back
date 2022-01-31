@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import joon.homework.entity.User;
+import joon.homework.exception.InvalidJwtException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -35,7 +36,11 @@ public class JwtUtil {
     }
 
     public String getEmail(String token) {
-        return extractAllClaims(token).get("email", String.class);
+        try {
+            return extractAllClaims(token).get("email", String.class);
+        } catch (Exception e) {
+            throw new InvalidJwtException();
+        }
     }
 
     public Boolean isTokenExpired(String token) {
@@ -63,8 +68,15 @@ public class JwtUtil {
     }
 
     public Boolean validateToken(String token, User user) {
-        final String username = getEmail(token);
+        Boolean result = false;
 
-        return (username.equals(user.getEmail()) && !isTokenExpired(token));
+        try {
+            final String username = getEmail(token);
+            result = username.equals(user.getEmail()) && !isTokenExpired(token);
+        } catch (Exception e) {
+            throw new InvalidJwtException();
+        }
+
+        return result;
     }
 }

@@ -3,17 +3,12 @@ package joon.homework.service;
 import joon.homework.dto.google.UserInfoDto;
 import joon.homework.entity.User;
 import joon.homework.enums.Role;
+import joon.homework.exception.NotLoggedInException;
 import joon.homework.repository.UserRepository;
 import joon.homework.util.JwtUtil;
 import joon.homework.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -53,5 +48,24 @@ public class AuthService {
         redisUtil.setDataExpire(user.getEmail(), jwt, JwtUtil.TOKEN_VALIDATION_SECOND);
 
         return jwt;
+    }
+
+    public Long checkLoggedIn(String token) {
+        verifyToken(token);
+
+        String email = jwtUtil.getEmail(token);
+        User user = userRepository.findByEmail(email);
+
+        return user.getId();
+    }
+
+    public void verifyToken(String token) throws NotLoggedInException{
+        String email = jwtUtil.getEmail(token);
+        User user = userRepository.findByEmail(email);
+        Boolean result = jwtUtil.validateToken(token, user);
+
+        if(!result) {
+            throw new NotLoggedInException();
+        }
     }
 }

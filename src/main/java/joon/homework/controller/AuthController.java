@@ -1,16 +1,13 @@
 package joon.homework.controller;
 
 import joon.homework.dto.ResponseDto;
+import joon.homework.dto.auth.request.CheckLoggedInDto;
 import joon.homework.dto.auth.request.GoogleLoginReqDto;
-import joon.homework.entity.User;
 import joon.homework.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +18,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/google/login")
-    public ResponseEntity<ResponseDto> googleLogin(@RequestBody GoogleLoginReqDto googleLoginReqDto, HttpServletResponse res) {
+    public ResponseEntity<ResponseDto> googleLogin(@RequestBody GoogleLoginReqDto googleLoginReqDto) {
 
         String token = authService.googleLogin(googleLoginReqDto.getIdToken());
 
@@ -32,6 +29,22 @@ public class AuthController {
                         .status(200)
                         .message("로그인 성공")
                         .data(token)
+                        .build()
+        );
+    }
+
+    @PostMapping("/check")
+    public ResponseEntity<ResponseDto> checkLoggedIn(@RequestBody CheckLoggedInDto checkLoggedInDto) {
+
+        Long id = authService.checkLoggedIn(checkLoggedInDto.getToken());
+
+        log.info("/api/auth/check");
+
+        return ResponseEntity.status(200).body(
+                ResponseDto.builder()
+                        .status(200)
+                        .message("로그인 유지")
+                        .data(id)
                         .build()
         );
     }
