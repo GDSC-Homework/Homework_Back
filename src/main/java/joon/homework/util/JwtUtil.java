@@ -7,7 +7,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import joon.homework.entity.User;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
@@ -17,11 +16,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    public final static long TOKEN_VALIDATION_SECOND = 1L * 60 * 60; // 1시간
-    public final static long REFRESH_TOKEN_VALIDATION_SECOND = 1L * 60 * 60 * 24; // 1일
-
-    final static public String ACCESS_TOKEN_NAME = "accessToken";
-    final static public String REFRESH_TOKEN_NAME = "refreshToken";
+    public final static long TOKEN_VALIDATION_SECOND = 1L * 60 * 60 * 24; // 1일
 
     @Value("${spring.jwt.secret}")
     private String SECRET_KEY;
@@ -52,10 +47,6 @@ public class JwtUtil {
         return doGenerateToken(user.getEmail(), TOKEN_VALIDATION_SECOND);
     }
 
-    public String generateRefreshToken(User user) {
-        return doGenerateToken(user.getEmail(), REFRESH_TOKEN_VALIDATION_SECOND);
-    }
-
     public String doGenerateToken(String email, long expireTime) {
 
         Claims claims = Jwts.claims();
@@ -71,9 +62,9 @@ public class JwtUtil {
         return jwt;
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    public Boolean validateToken(String token, User user) {
         final String username = getEmail(token);
 
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(user.getEmail()) && !isTokenExpired(token));
     }
 }

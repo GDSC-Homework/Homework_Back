@@ -4,18 +4,13 @@ import joon.homework.dto.ResponseDto;
 import joon.homework.dto.auth.request.GoogleLoginReqDto;
 import joon.homework.entity.User;
 import joon.homework.service.AuthService;
-import joon.homework.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,11 +23,7 @@ public class AuthController {
     @PostMapping("/google/login")
     public ResponseEntity<ResponseDto> googleLogin(@RequestBody GoogleLoginReqDto googleLoginReqDto, HttpServletResponse res) {
 
-        User user = authService.googleLogin(googleLoginReqDto.getIdToken());
-        Map<String, Cookie> map = authService.sendCookie(user);
-
-        res.addCookie(map.get(JwtUtil.ACCESS_TOKEN_NAME));
-        res.addCookie(map.get(JwtUtil.REFRESH_TOKEN_NAME));
+        String token = authService.googleLogin(googleLoginReqDto.getIdToken());
 
         log.info("/api/auth/google/login");
 
@@ -40,7 +31,7 @@ public class AuthController {
                 ResponseDto.builder()
                         .status(200)
                         .message("로그인 성공")
-                        .data(user)
+                        .data(token)
                         .build()
         );
     }

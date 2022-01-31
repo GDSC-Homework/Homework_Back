@@ -4,13 +4,13 @@ import joon.homework.dto.google.UserInfoDto;
 import joon.homework.entity.User;
 import joon.homework.enums.Role;
 import joon.homework.repository.UserRepository;
-import joon.homework.util.CookieUtil;
 import joon.homework.util.JwtUtil;
 import joon.homework.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -20,43 +20,38 @@ import java.util.Optional;
 public class AuthService {
 
     private final JwtUtil jwtUtil;
-    private final CookieUtil cookieUtil;
     private final RedisUtil redisUtil;
     private final UserRepository userRepository;
     private final GoogleService googleService;
 
-    public User googleLogin(String idToken) {
+    public String googleLogin(String idToken) {
+        String jwt;
         UserInfoDto userInfoDto = googleService.getUserInfoByIdToken(idToken);
 
-        Optional<User> user = userRepository.findByEmail(userInfoDto.getEmail());
+        User user = userRepository.findByEmail(userInfoDto.getEmail());
 
-        if(user.isEmpty()) {
-            User newUser = User.builder()
+//        User user = userRepository.findByEmail("orijoon98@gmail.com");
+
+        if(user == null) {
+            user = User.builder()
                     .name(userInfoDto.getName())
                     .email(userInfoDto.getEmail())
                     .picture(userInfoDto.getPicture())
                     .role(Role.ROLE_USER)
                     .build();
+//            user = User.builder()
+//                    .name("공혁준")
+//                    .email("orijoon98@gmail.com")
+//                    .picture("")
+//                    .role(Role.ROLE_USER)
+//                    .build();
 
-            userRepository.save(newUser);
-
-            return newUser;
+            userRepository.save(user);
         }
 
-        return user.get();
-    }
+        jwt = jwtUtil.generateToken(user);
+        redisUtil.setDataExpire(user.getEmail(), jwt, JwtUtil.TOKEN_VALIDATION_SECOND);
 
-    public Map<String, Cookie> sendCookie(User user) {
-        String jwt = jwtUtil.generateToken(user);
-        String refreshJwt = jwtUtil.generateRefreshToken(user);
-        Cookie accessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME, jwt);
-        Cookie refreshToken = cookieUtil.createCookie(JwtUtil.REFRESH_TOKEN_NAME, refreshJwt);
-        redisUtil.setDataExpire(refreshJwt, user.getEmail(), JwtUtil.REFRESH_TOKEN_VALIDATION_SECOND);
-
-        Map<String, Cookie> map = new HashMap<String, Cookie>();
-        map.put(JwtUtil.ACCESS_TOKEN_NAME, accessToken);
-        map.put(JwtUtil.REFRESH_TOKEN_NAME, refreshToken);
-
-        return map;
+        return jwt;
     }
 }
