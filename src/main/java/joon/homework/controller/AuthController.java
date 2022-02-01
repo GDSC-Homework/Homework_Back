@@ -1,7 +1,7 @@
 package joon.homework.controller;
 
 import joon.homework.dto.ResponseDto;
-import joon.homework.dto.auth.request.CheckLoggedInDto;
+import joon.homework.dto.auth.request.CheckLoggedInReqDto;
 import joon.homework.dto.auth.request.GoogleLoginReqDto;
 import joon.homework.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -34,9 +34,9 @@ public class AuthController {
     }
 
     @PostMapping("/check")
-    public ResponseEntity<ResponseDto> checkLoggedIn(@RequestBody CheckLoggedInDto checkLoggedInDto) {
+    public ResponseEntity<ResponseDto> checkLoggedIn(@RequestBody CheckLoggedInReqDto checkLoggedInReqDto) {
 
-        Long id = authService.checkLoggedIn(checkLoggedInDto.getToken());
+        Long id = authService.checkLoggedIn(checkLoggedInReqDto.getToken());
 
         log.info("/api/auth/check");
 
