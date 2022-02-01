@@ -1,8 +1,10 @@
 package joon.homework.controller;
 
 import joon.homework.dto.ResponseDto;
+import joon.homework.dto.room.request.CheckRoomReqDto;
 import joon.homework.dto.room.request.CreateRoomReqDto;
 import joon.homework.dto.room.request.ParticipateRoomReqDto;
+import joon.homework.dto.room.response.CheckRoomResDto;
 import joon.homework.dto.room.response.CreateRoomResDto;
 import joon.homework.service.RoomService;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +51,22 @@ public class RoomController {
                         .status(200)
                         .message("방 참가 성공")
                         .data(roomId)
+                        .build()
+        );
+    }
+
+    @PostMapping("/check")
+    public ResponseEntity<ResponseDto> checkRoom(@RequestBody CheckRoomReqDto checkRoomReqDto) {
+
+        CheckRoomResDto checkRoomResDto = roomService.checkRoom(checkRoomReqDto.getToken());
+
+        log.info("/api/room/check");
+
+        return ResponseEntity.status(200).body(
+                ResponseDto.builder()
+                        .status(200)
+                        .message("방 참가 여부")
+                        .data(checkRoomResDto)
                         .build()
         );
     }
