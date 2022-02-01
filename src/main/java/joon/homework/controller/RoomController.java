@@ -2,6 +2,7 @@ package joon.homework.controller;
 
 import joon.homework.dto.ResponseDto;
 import joon.homework.dto.room.request.CreateRoomReqDto;
+import joon.homework.dto.room.response.CreateRoomResDto;
 import joon.homework.service.RoomService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,15 +23,15 @@ public class RoomController {
     @PostMapping("/create")
     public ResponseEntity<ResponseDto> createRoom(@RequestBody CreateRoomReqDto createRoomReqDto) {
 
-        String roomCode = roomService.createRoom(createRoomReqDto.getToken());
+        CreateRoomResDto createRoomResDto = roomService.createRoom(createRoomReqDto.getToken());
 
         log.info("/api/room/create");
 
         return ResponseEntity.status(200).body(
                 ResponseDto.builder()
                         .status(200)
-                        .message("로그인 성공")
-                        .data(roomCode)
+                        .message("방 생성 성공")
+                        .data(createRoomResDto)
                         .build()
         );
     }

@@ -1,5 +1,6 @@
 package joon.homework.service;
 
+import joon.homework.dto.room.response.CreateRoomResDto;
 import joon.homework.entity.Participate;
 import joon.homework.entity.Room;
 import joon.homework.entity.User;
@@ -23,7 +24,7 @@ public class RoomService {
     private final ParticipateRepository participateRepository;
     private final AuthService authService;
 
-    public String createRoom(String token) {
+    public CreateRoomResDto createRoom(String token) {
         authService.verifyToken(token);
 
         Long userId = jwtUtil.getId(token);
@@ -46,7 +47,12 @@ public class RoomService {
 
         participateRepository.save(participate);
 
-        return roomCode;
+        CreateRoomResDto createRoomResDto = CreateRoomResDto.builder()
+                .roomCode(roomCode)
+                .roomId(savedRoom.getId())
+                .build();
+
+        return createRoomResDto;
     }
 
     private String createRoomCode() {
