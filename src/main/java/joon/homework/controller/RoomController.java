@@ -2,6 +2,7 @@ package joon.homework.controller;
 
 import joon.homework.dto.ResponseDto;
 import joon.homework.dto.room.request.CreateRoomReqDto;
+import joon.homework.dto.room.request.ParticipateRoomReqDto;
 import joon.homework.dto.room.response.CreateRoomResDto;
 import joon.homework.service.RoomService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,22 @@ public class RoomController {
                         .status(200)
                         .message("방 생성 성공")
                         .data(createRoomResDto)
+                        .build()
+        );
+    }
+
+    @PostMapping("/participate")
+    public ResponseEntity<ResponseDto> participateRoom(@RequestBody ParticipateRoomReqDto participateRoomReqDto) {
+
+        Long roomId = roomService.participateRoom(participateRoomReqDto.getToken(), participateRoomReqDto.getRoomCode());
+
+        log.info("/api/room/participate");
+
+        return ResponseEntity.status(200).body(
+                ResponseDto.builder()
+                        .status(200)
+                        .message("방 참가 성공")
+                        .data(roomId)
                         .build()
         );
     }

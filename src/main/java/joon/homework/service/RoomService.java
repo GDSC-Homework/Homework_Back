@@ -4,6 +4,7 @@ import joon.homework.dto.room.response.CreateRoomResDto;
 import joon.homework.entity.Participate;
 import joon.homework.entity.Room;
 import joon.homework.entity.User;
+import joon.homework.exception.InvalidRoomCodeException;
 import joon.homework.repository.ParticipateRepository;
 import joon.homework.repository.RoomRepository;
 import joon.homework.repository.UserRepository;
@@ -53,6 +54,27 @@ public class RoomService {
                 .build();
 
         return createRoomResDto;
+    }
+
+    public Long participateRoom(String token, String roomCode) {
+        authService.verifyToken(token);
+
+        Long userId = jwtUtil.getId(token);
+        Optional<User> user = userRepository.findById(userId);
+
+        Room room = roomRepository.findByCode(roomCode);
+        if(room == null) {
+            throw new InvalidRoomCodeException();
+        }
+
+        Participate participate = Participate.builder()
+                .roomId(room.getId())
+                .userId(user.get().getId())
+                .build();
+
+        participateRepository.save(participate);
+
+        return room.getId();
     }
 
     private String createRoomCode() {

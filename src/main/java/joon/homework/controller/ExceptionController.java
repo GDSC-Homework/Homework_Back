@@ -3,6 +3,7 @@ package joon.homework.controller;
 import joon.homework.dto.ErrorDto;
 import joon.homework.exception.IdTokenException;
 import joon.homework.exception.InvalidJwtException;
+import joon.homework.exception.InvalidRoomCodeException;
 import joon.homework.exception.NotLoggedInException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,8 @@ public class ExceptionController {
 
     //400
     @ExceptionHandler({
-            IdTokenException.class
+            IdTokenException.class,
+            InvalidRoomCodeException.class
     })
     public ResponseEntity<ErrorDto> InvalidRequest(final RuntimeException ex) {
         log.error(ex.getMessage(), ex);
