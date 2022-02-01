@@ -35,9 +35,9 @@ public class JwtUtil {
                 .getBody();
     }
 
-    public String getEmail(String token) {
+    public Long getId(String token) {
         try {
-            return extractAllClaims(token).get("email", String.class);
+            return extractAllClaims(token).get("id", Long.class);
         } catch (Exception e) {
             throw new InvalidJwtException();
         }
@@ -49,13 +49,13 @@ public class JwtUtil {
     }
 
     public String generateToken(User user) {
-        return doGenerateToken(user.getEmail(), TOKEN_VALIDATION_SECOND);
+        return doGenerateToken(user.getId(), TOKEN_VALIDATION_SECOND);
     }
 
-    public String doGenerateToken(String email, long expireTime) {
+    public String doGenerateToken(Long id, long expireTime) {
 
         Claims claims = Jwts.claims();
-        claims.put("email", email);
+        claims.put("id", id);
 
         String jwt = Jwts.builder()
                 .setClaims(claims)
@@ -71,8 +71,8 @@ public class JwtUtil {
         Boolean result = false;
 
         try {
-            final String username = getEmail(token);
-            result = username.equals(user.getEmail()) && !isTokenExpired(token);
+            final Long username = getId(token);
+            result = username.equals(user.getId()) && !isTokenExpired(token);
         } catch (Exception e) {
             throw new InvalidJwtException();
         }

@@ -10,6 +10,8 @@ import joon.homework.util.RedisUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -21,25 +23,25 @@ public class AuthService {
 
     public String googleLogin(String idToken) {
         String jwt;
-        UserInfoDto userInfoDto = googleService.getUserInfoByIdToken(idToken);
+//        UserInfoDto userInfoDto = googleService.getUserInfoByIdToken(idToken);
+//
+//        User user = userRepository.findByEmail(userInfoDto.getEmail());
 
-        User user = userRepository.findByEmail(userInfoDto.getEmail());
-
-//        User user = userRepository.findByEmail("orijoon98@gmail.com");
+        User user = userRepository.findByEmail("orijoon98@gmail.com");
 
         if(user == null) {
-            user = User.builder()
-                    .name(userInfoDto.getName())
-                    .email(userInfoDto.getEmail())
-                    .picture(userInfoDto.getPicture())
-                    .role(Role.ROLE_USER)
-                    .build();
 //            user = User.builder()
-//                    .name("공혁준")
-//                    .email("orijoon98@gmail.com")
-//                    .picture("")
+//                    .name(userInfoDto.getName())
+//                    .email(userInfoDto.getEmail())
+//                    .picture(userInfoDto.getPicture())
 //                    .role(Role.ROLE_USER)
 //                    .build();
+            user = User.builder()
+                    .name("공혁준")
+                    .email("orijoon98@gmail.com")
+                    .picture("")
+                    .role(Role.ROLE_USER)
+                    .build();
 
             userRepository.save(user);
         }
@@ -53,16 +55,16 @@ public class AuthService {
     public Long checkLoggedIn(String token) {
         verifyToken(token);
 
-        String email = jwtUtil.getEmail(token);
-        User user = userRepository.findByEmail(email);
+        Long id = jwtUtil.getId(token);
+        Optional<User> user = userRepository.findById(id);
 
-        return user.getId();
+        return user.get().getId();
     }
 
     public void verifyToken(String token) throws NotLoggedInException{
-        String email = jwtUtil.getEmail(token);
-        User user = userRepository.findByEmail(email);
-        Boolean result = jwtUtil.validateToken(token, user);
+        Long id = jwtUtil.getId(token);
+        Optional<User> user = userRepository.findById(id);
+        Boolean result = jwtUtil.validateToken(token, user.get());
 
         if(!result) {
             throw new NotLoggedInException();
