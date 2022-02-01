@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CheckLoggedInDto {
+public class CheckLoggedInReqDto {
 
     private String token;
 
     @Builder
-    public CheckLoggedInDto(String token) {
+    public CheckLoggedInReqDto(String token) {
         this.token = token;
     }
 }
