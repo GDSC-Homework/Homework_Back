@@ -3,6 +3,7 @@ package joon.homework.controller;
 import joon.homework.dto.ResponseDto;
 import joon.homework.dto.room.request.CheckRoomReqDto;
 import joon.homework.dto.room.request.CreateRoomReqDto;
+import joon.homework.dto.room.request.GetParticipantsReqDto;
 import joon.homework.dto.room.request.ParticipateRoomReqDto;
 import joon.homework.dto.room.response.CheckRoomResDto;
 import joon.homework.dto.room.response.CreateRoomResDto;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -67,6 +70,22 @@ public class RoomController {
                         .status(200)
                         .message("방 참가 여부")
                         .data(checkRoomResDto)
+                        .build()
+        );
+    }
+
+    @PostMapping("/participants")
+    public ResponseEntity<ResponseDto> getParticipants(@RequestBody GetParticipantsReqDto getParticipantsReqDto) {
+
+        List<Long> participants = roomService.getParticipants(getParticipantsReqDto.getToken(), getParticipantsReqDto.getRoomId());
+
+        log.info("/api/room/participants");
+
+        return ResponseEntity.status(200).body(
+                ResponseDto.builder()
+                        .status(200)
+                        .message("방 참가 인원")
+                        .data(participants)
                         .build()
         );
     }

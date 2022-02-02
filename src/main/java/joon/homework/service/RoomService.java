@@ -13,6 +13,7 @@ import joon.homework.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,6 +104,19 @@ public class RoomService {
         }
 
         return checkRoomResDto;
+    }
+
+    public List<Long> getParticipants(String token, Long roomId) {
+        authService.verifyToken(token);
+
+        List<Participate> participateList = participateRepository.findAllByRoomId(roomId);
+        List<Long> result = new ArrayList<>();
+
+        for(int i=0; i<participateList.size(); i++) {
+            result.add(i, participateList.get(i).getUserId());
+        }
+
+        return result;
     }
 
     private String createRoomCode() {
