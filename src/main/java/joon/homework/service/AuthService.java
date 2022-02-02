@@ -1,5 +1,6 @@
 package joon.homework.service;
 
+import joon.homework.dto.google.UserInfoDto;
 import joon.homework.entity.User;
 import joon.homework.exception.NotLoggedInException;
 import joon.homework.repository.UserRepository;
