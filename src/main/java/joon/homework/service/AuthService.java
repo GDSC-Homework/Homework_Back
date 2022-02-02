@@ -1,7 +1,6 @@
 package joon.homework.service;
 
 import joon.homework.entity.User;
-import joon.homework.enums.Role;
 import joon.homework.exception.NotLoggedInException;
 import joon.homework.repository.UserRepository;
 import joon.homework.util.JwtUtil;
@@ -33,13 +32,11 @@ public class AuthService {
 //                    .name(userInfoDto.getName())
 //                    .email(userInfoDto.getEmail())
 //                    .picture(userInfoDto.getPicture())
-//                    .role(Role.ROLE_USER)
 //                    .build();
             user = User.builder()
                     .name("공혁준")
                     .email("orijoon98@gmail.com")
                     .picture("")
-                    .role(Role.ROLE_USER)
                     .build();
 
             userRepository.save(user);
