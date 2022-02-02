@@ -29,6 +29,7 @@ public class HouseworkController {
                 createHouseReqDto.getStartTime(),
                 createHouseReqDto.getFinishTime(),
                 createHouseReqDto.getRepeat(),
+                createHouseReqDto.getPenalty(),
                 createHouseReqDto.getMemo()
         );
 

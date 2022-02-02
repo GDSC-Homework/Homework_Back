@@ -25,6 +25,7 @@ public class HouseworkService {
             String startTime,
             String finishTime,
             Boolean repeat,
+            int penalty,
             String memo
     ) {
         authService.verifyToken(token);
@@ -42,6 +43,7 @@ public class HouseworkService {
                         .startTime(startTime)
                         .finishTime(finishTime)
                         .repeat(repeat)
+                        .penalty(penalty)
                         .memo(memo)
                         .build();
 

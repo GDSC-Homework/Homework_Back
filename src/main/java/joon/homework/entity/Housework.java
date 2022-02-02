@@ -33,10 +33,13 @@ public class Housework extends BaseEntity {
     private Boolean repeat;
 
     @Column
+    private int penalty;
+
+    @Column
     private String memo;
 
     @Builder
-    public Housework(String name, Long userId, Long roomId, String day, String startTime, String finishTime, Boolean repeat, String memo) {
+    public Housework(String name, Long userId, Long roomId, String day, String startTime, String finishTime, Boolean repeat, int penalty, String memo) {
         this.name = name;
         this.userId = userId;
         this.roomId = roomId;
@@ -44,6 +47,7 @@ public class Housework extends BaseEntity {
         this.startTime = startTime;
         this.finishTime = finishTime;
         this.repeat = repeat;
+        this.penalty = penalty;
         this.memo = memo;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
