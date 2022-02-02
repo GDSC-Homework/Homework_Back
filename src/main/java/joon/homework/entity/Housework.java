@@ -38,6 +38,7 @@ public class Housework extends BaseEntity {
     @Column
     private String memo;
 
+    @Setter
     @Column
     private Boolean finished;
 

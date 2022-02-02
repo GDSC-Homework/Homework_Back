@@ -94,4 +94,13 @@ public class HouseworkService {
 
         return getAllHouseworkResDto;
     }
+
+    public void doneHousework(String token, Long houseworkId) {
+        authService.verifyToken(token);
+
+        Optional<Housework> housework = houseworkRepository.findById(houseworkId);
+        housework.get().setFinished(true);
+
+        houseworkRepository.save(housework.get());
+    }
 }
