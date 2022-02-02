@@ -52,6 +52,7 @@ public class HouseworkService {
                         .repeat(repeat)
                         .penalty(penalty)
                         .memo(memo)
+                        .finished(false)
                         .build();
 
                 houseworkRepository.save(housework);
