@@ -21,7 +21,8 @@ public class CreateHouseReqDto {
     private String memo;
 
     @Builder
-    public CreateHouseReqDto(String name, List<Long> userId, List<String> day, String startTime, String finishTime, Boolean repeat, int penalty, String memo) {
+    public CreateHouseReqDto(String token, String name, List<Long> userId, List<String> day, String startTime, String finishTime, Boolean repeat, int penalty, String memo) {
+        this.token = token;
         this.name = name;
         this.userId = userId;
         this.day = day;
