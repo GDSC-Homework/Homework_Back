@@ -1,5 +1,6 @@
 package joon.homework.service;
 
+import joon.homework.dto.housework.response.GetAllHouseworkResDto;
 import joon.homework.entity.Housework;
 import joon.homework.entity.Participate;
 import joon.homework.entity.User;
@@ -67,5 +68,29 @@ public class HouseworkService {
         List<Housework> houseworkList = houseworkRepository.findAllByUserId(user.get().getId());
 
         return houseworkList;
+    }
+
+    public GetAllHouseworkResDto getAllHousework(String token) {
+        authService.verifyToken(token);
+
+        Long userId = jwtUtil.getId(token);
+        Optional<User> user = userRepository.findById(userId);
+
+        Participate participate = participateRepository.findByUserId(user.get().getId());
+        Long roomId = participate.getRoomId();
+
+        List<Housework> allHousework = houseworkRepository.findAllByRoomId(roomId);
+        List<Housework> myHousework = houseworkRepository.findAllByUserId(user.get().getId());
+
+        for(int i=0; i<myHousework.size(); i++) {
+            allHousework.remove(myHousework.get(i));
+        }
+
+        GetAllHouseworkResDto getAllHouseworkResDto = GetAllHouseworkResDto.builder()
+                .myHousework(myHousework)
+                .otherHousework(allHousework)
+                .build();
+
+        return getAllHouseworkResDto;
     }
 }

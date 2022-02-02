@@ -8,4 +8,5 @@ import java.util.List;
 public interface HouseworkRepository extends JpaRepository<Housework, Long> {
 
     List<Housework> findAllByUserId(Long userId);
+    List<Housework> findAllByRoomId(Long roomId);
 }
