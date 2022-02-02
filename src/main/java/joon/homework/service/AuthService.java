@@ -1,6 +1,5 @@
 package joon.homework.service;
 
-import joon.homework.dto.google.UserInfoDto;
 import joon.homework.entity.User;
 import joon.homework.enums.Role;
 import joon.homework.exception.NotLoggedInException;
@@ -69,5 +68,13 @@ public class AuthService {
         if(!result) {
             throw new NotLoggedInException();
         }
+    }
+
+    public String getProfile(String token, Long userId) {
+        verifyToken(token);
+
+        Optional<User> user = userRepository.findById(userId);
+
+        return user.get().getName();
     }
 }
