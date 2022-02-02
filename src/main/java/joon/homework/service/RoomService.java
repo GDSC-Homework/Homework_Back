@@ -2,10 +2,12 @@ package joon.homework.service;
 
 import joon.homework.dto.room.response.CheckRoomResDto;
 import joon.homework.dto.room.response.CreateRoomResDto;
+import joon.homework.entity.Bank;
 import joon.homework.entity.Participate;
 import joon.homework.entity.Room;
 import joon.homework.entity.User;
 import joon.homework.exception.InvalidRoomCodeException;
+import joon.homework.repository.BankRepository;
 import joon.homework.repository.ParticipateRepository;
 import joon.homework.repository.RoomRepository;
 import joon.homework.repository.UserRepository;
@@ -26,6 +28,7 @@ public class RoomService {
     private final UserRepository userRepository;
     private final RoomRepository roomRepository;
     private final ParticipateRepository participateRepository;
+    private final BankRepository bankRepository;
     private final AuthService authService;
 
     public CreateRoomResDto createRoom(String token) {
@@ -50,6 +53,13 @@ public class RoomService {
                 .build();
 
         participateRepository.save(participate);
+
+        Bank bank = Bank.builder()
+                .roomId(savedRoom.getId())
+                .deposit(0)
+                .build();
+
+        bankRepository.save(bank);
 
         CreateRoomResDto createRoomResDto = CreateRoomResDto.builder()
                 .roomCode(roomCode)
