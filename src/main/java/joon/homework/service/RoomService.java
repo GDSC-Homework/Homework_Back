@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -115,6 +116,8 @@ public class RoomService {
         for(int i=0; i<participateList.size(); i++) {
             result.add(i, participateList.get(i).getUserId());
         }
+
+        Collections.sort(result);
 
         return result;
     }
