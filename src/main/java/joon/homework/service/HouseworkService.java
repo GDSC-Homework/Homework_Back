@@ -3,9 +3,11 @@ package joon.homework.service;
 import joon.homework.dto.housework.response.GetAllHouseworkResDto;
 import joon.homework.entity.Housework;
 import joon.homework.entity.Participate;
+import joon.homework.entity.Stats;
 import joon.homework.entity.User;
 import joon.homework.repository.HouseworkRepository;
 import joon.homework.repository.ParticipateRepository;
+import joon.homework.repository.StatsRepository;
 import joon.homework.repository.UserRepository;
 import joon.homework.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class HouseworkService {
     private final ParticipateRepository participateRepository;
     private final UserRepository userRepository;
     private final HouseworkRepository houseworkRepository;
+    private final StatsRepository statsRepository;
     private final AuthService authService;
 
     public void createHousework(
@@ -102,5 +105,25 @@ public class HouseworkService {
         housework.get().setFinished(true);
 
         houseworkRepository.save(housework.get());
+
+        String[] workList = {"설거지", "분리수거", "청소", "욕실 청소", "세탁", "장보기", "요리"};
+        String work = housework.get().getName();
+
+        Stats stats = Stats.builder()
+                .roomId(housework.get().getRoomId())
+                .userId(housework.get().getId())
+                .build();
+
+        for(int i=0; i<workList.length; i++) {
+            if(work.equals(workList[i])) {
+                stats.setCategory(work);
+                break;
+            }
+            if(i == workList.length - 1) {
+                stats.setCategory("기타");
+            }
+        }
+
+        statsRepository.save(stats);
     }
 }
