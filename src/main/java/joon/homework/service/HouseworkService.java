@@ -124,6 +124,13 @@ public class HouseworkService {
             }
         }
 
+        Stats statsAll = Stats.builder()
+                .roomId(housework.get().getRoomId())
+                .userId(housework.get().getId())
+                .category("전체")
+                .build();
+
         statsRepository.save(stats);
+        statsRepository.save(statsAll);
     }
 }
