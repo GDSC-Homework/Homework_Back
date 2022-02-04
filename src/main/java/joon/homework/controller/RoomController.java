@@ -1,10 +1,7 @@
 package joon.homework.controller;
 
 import joon.homework.dto.ResponseDto;
-import joon.homework.dto.room.request.CheckRoomReqDto;
-import joon.homework.dto.room.request.CreateRoomReqDto;
-import joon.homework.dto.room.request.GetParticipantsReqDto;
-import joon.homework.dto.room.request.ParticipateRoomReqDto;
+import joon.homework.dto.room.request.*;
 import joon.homework.dto.room.response.CheckRoomResDto;
 import joon.homework.dto.room.response.CreateRoomResDto;
 import joon.homework.service.RoomService;
@@ -86,6 +83,21 @@ public class RoomController {
                         .status(200)
                         .message("방 참가 인원")
                         .data(participants)
+                        .build()
+        );
+    }
+
+    @PostMapping("/code")
+    public ResponseEntity<ResponseDto> getCode(@RequestBody GetCodeReqDto getCodeReqDto) {
+        String code = roomService.getCode(getCodeReqDto.getToken());
+
+        log.info("/api/room/code");
+
+        return ResponseEntity.status(200).body(
+                ResponseDto.builder()
+                        .status(200)
+                        .message("방 초대 코드")
+                        .data(code)
                         .build()
         );
     }

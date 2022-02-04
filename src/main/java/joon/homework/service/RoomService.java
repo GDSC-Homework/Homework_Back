@@ -132,6 +132,21 @@ public class RoomService {
         return result;
     }
 
+    public String getCode(String token) {
+        authService.verifyToken(token);
+
+        Long userId = jwtUtil.getId(token);
+        Optional<User> user = userRepository.findById(userId);
+
+        Participate participate = participateRepository.findByUserId(user.get().getId());
+        Long roomId = participate.getRoomId();
+
+        Optional<Room> room = roomRepository.findById(roomId);
+        String code = room.get().getCode();
+
+        return code;
+    }
+
     private String createRoomCode() {
         String result;
         do {
