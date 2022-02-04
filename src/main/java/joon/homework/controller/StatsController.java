@@ -34,4 +34,19 @@ public class StatsController {
                         .build()
         );
     }
+
+    @PostMapping("/week/latest")
+    public ResponseEntity<ResponseDto> getWeekLatestStats(@RequestBody GetMonthAllLatestStatsReqDto getMonthAllLatestStatsReqDto) {
+        statsService.getWeekLatestStats(getMonthAllLatestStatsReqDto.getToken(), getMonthAllLatestStatsReqDto.getCategory());
+
+        log.info("/api/stats/week/latest");
+
+        return ResponseEntity.status(200).body(
+                ResponseDto.builder()
+                        .status(200)
+                        .message("이번주 주간 통계")
+                        .data(null)
+                        .build()
+        );
+    }
 }

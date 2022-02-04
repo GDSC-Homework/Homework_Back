@@ -11,9 +11,11 @@ import joon.homework.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -88,5 +90,27 @@ public class StatsService {
                 .build();
 
         return result;
+    }
+
+    public void getWeekLatestStats(String token, String category) {
+//        authService.verifyToken(token);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        String startWeek = formatter.format(calendar.getTime());
+        LocalDate startLD = LocalDate.parse(startWeek, DateTimeFormatter.ISO_DATE);
+
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        calendar.add(calendar.DATE, 7);
+        String endWeek = formatter.format(calendar.getTime());
+        LocalDate endLD = LocalDate.parse(endWeek, DateTimeFormatter.ISO_DATE);
+
+        LocalDateTime start = startLD.atTime(0, 0, 0);
+        LocalDateTime end = endLD.atTime(23, 59, 59);
+
+        System.out.println(start);
+        System.out.println(end);
     }
 }
