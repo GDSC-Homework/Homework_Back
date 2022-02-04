@@ -14,6 +14,7 @@ public class Housework extends BaseEntity {
     @Column(name = "housework")
     private String name;
 
+    @Setter
     @Column
     private Long userId;
 
