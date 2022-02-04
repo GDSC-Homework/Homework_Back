@@ -111,7 +111,7 @@ public class HouseworkService {
 
         Stats stats = Stats.builder()
                 .roomId(housework.get().getRoomId())
-                .userId(housework.get().getId())
+                .userId(housework.get().getUserId())
                 .build();
 
         for(int i=0; i<workList.length; i++) {
@@ -126,7 +126,7 @@ public class HouseworkService {
 
         Stats statsAll = Stats.builder()
                 .roomId(housework.get().getRoomId())
-                .userId(housework.get().getId())
+                .userId(housework.get().getUserId())
                 .category("전체")
                 .build();
 
