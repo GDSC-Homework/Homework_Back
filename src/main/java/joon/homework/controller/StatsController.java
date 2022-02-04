@@ -1,8 +1,10 @@
 package joon.homework.controller;
 
 import joon.homework.dto.ResponseDto;
-import joon.homework.dto.stats.request.GetMonthAllLatestStatsReqDto;
-import joon.homework.dto.stats.response.GetMonthAllLatestStatsResDto;
+import joon.homework.dto.stats.request.GetMonthLatestStatsReqDto;
+import joon.homework.dto.stats.request.GetWeekLatestStatsReqDto;
+import joon.homework.dto.stats.response.GetMonthLatestStatsResDto;
+import joon.homework.dto.stats.response.GetWeekLatestStatsResDto;
 import joon.homework.service.StatsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +23,8 @@ public class StatsController {
     private final StatsService statsService;
 
     @PostMapping("/month/latest")
-    public ResponseEntity<ResponseDto> getMonthLatestStats(@RequestBody GetMonthAllLatestStatsReqDto getMonthAllLatestStatsReqDto) {
-        GetMonthAllLatestStatsResDto stats = statsService.getMonthLatestStats(getMonthAllLatestStatsReqDto.getToken(), getMonthAllLatestStatsReqDto.getCategory());
+    public ResponseEntity<ResponseDto> getMonthLatestStats(@RequestBody GetMonthLatestStatsReqDto getMonthLatestStatsReqDto) {
+        GetMonthLatestStatsResDto stats = statsService.getMonthLatestStats(getMonthLatestStatsReqDto.getToken(), getMonthLatestStatsReqDto.getCategory());
 
         log.info("/api/stats/month/latest");
 
@@ -36,8 +38,8 @@ public class StatsController {
     }
 
     @PostMapping("/week/latest")
-    public ResponseEntity<ResponseDto> getWeekLatestStats(@RequestBody GetMonthAllLatestStatsReqDto getMonthAllLatestStatsReqDto) {
-        statsService.getWeekLatestStats(getMonthAllLatestStatsReqDto.getToken(), getMonthAllLatestStatsReqDto.getCategory());
+    public ResponseEntity<ResponseDto> getWeekLatestStats(@RequestBody GetWeekLatestStatsReqDto getWeekLatestStatsReqDto) {
+        GetWeekLatestStatsResDto result = statsService.getWeekLatestStats(getWeekLatestStatsReqDto.getToken(), getWeekLatestStatsReqDto.getCategory());
 
         log.info("/api/stats/week/latest");
 
@@ -45,7 +47,7 @@ public class StatsController {
                 ResponseDto.builder()
                         .status(200)
                         .message("이번주 주간 통계")
-                        .data(null)
+                        .data(result)
                         .build()
         );
     }

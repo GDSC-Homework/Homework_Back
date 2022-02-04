@@ -1,6 +1,7 @@
 package joon.homework.service;
 
-import joon.homework.dto.stats.response.GetMonthAllLatestStatsResDto;
+import joon.homework.dto.stats.response.GetMonthLatestStatsResDto;
+import joon.homework.dto.stats.response.GetWeekLatestStatsResDto;
 import joon.homework.dto.stats.response.NameAndCount;
 import joon.homework.entity.Participate;
 import joon.homework.entity.User;
@@ -28,7 +29,7 @@ public class StatsService {
     private final ParticipateRepository participateRepository;
     private final AuthService authService;
 
-    public GetMonthAllLatestStatsResDto getMonthLatestStats(String token, String category) {
+    public GetMonthLatestStatsResDto getMonthLatestStats(String token, String category) {
         authService.verifyToken(token);
 
         LocalDate startLD = YearMonth.now().atDay(1);
@@ -84,7 +85,7 @@ public class StatsService {
             }
         }
 
-        GetMonthAllLatestStatsResDto result = GetMonthAllLatestStatsResDto.builder()
+        GetMonthLatestStatsResDto result = GetMonthLatestStatsResDto.builder()
                 .winners(winners)
                 .result(nameAndCountList)
                 .build();
@@ -92,8 +93,8 @@ public class StatsService {
         return result;
     }
 
-    public void getWeekLatestStats(String token, String category) {
-//        authService.verifyToken(token);
+    public GetWeekLatestStatsResDto getWeekLatestStats(String token, String category) {
+        authService.verifyToken(token);
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
@@ -110,7 +111,77 @@ public class StatsService {
         LocalDateTime start = startLD.atTime(0, 0, 0);
         LocalDateTime end = endLD.atTime(23, 59, 59);
 
-        System.out.println(start);
-        System.out.println(end);
+        Long userId = jwtUtil.getId(token);
+        Optional<User> user = userRepository.findById(userId);
+
+        Participate participate = participateRepository.findByUserId(user.get().getId());
+
+        Long roomId = participate.getRoomId();
+
+        List<Participate> participateList = participateRepository.findAllByRoomId(roomId);
+
+        List<Long> participantsId = new ArrayList<>();
+
+        for(int i=0; i<participateList.size(); i++) {
+            participantsId.add(i, participateList.get(i).getUserId());
+        }
+
+        List<List<NameAndCount>> counts = new ArrayList<>();
+        Long[] totals = new Long[participantsId.size()];
+        for(int j=0; j<participantsId.size(); j++) {
+            totals[j] = 0L;
+        }
+
+        for(int i=0; i<7; i++) {
+            LocalDateTime from = start;
+            LocalDateTime to = start.plusHours(23);
+            to = to.plusMinutes(59);
+            to = to.plusSeconds(59);
+
+            List<NameAndCount> nameAndCountList = new ArrayList<>();
+
+            for(int j=0; j<participantsId.size(); j++) {
+                Optional<User> currentUser = userRepository.findById(participantsId.get(j));
+                String name = currentUser.get().getName();
+                Long count = statsRepository.countByUserIdAndCategoryAndCreatedAtBetween(participantsId.get(j), category, from, to);
+                totals[j] += count;
+                NameAndCount nameAndCount = NameAndCount.builder()
+                        .userId(participantsId.get(j))
+                        .name(name)
+                        .count(count)
+                        .build();
+                nameAndCountList.add(j, nameAndCount);
+            }
+
+            counts.add(i, nameAndCountList);
+
+            start = start.plusDays(1);
+        }
+
+        Long max = 0L;
+        for(int i=0; i<totals.length; i++) {
+            if(totals[i] > max) {
+                max = totals[i];
+            }
+        }
+
+        List<String> winners = new ArrayList<>();
+
+        int j = 0;
+        for(int i=0; i<totals.length; i++) {
+            if(totals[i] == max) {
+                Optional<User> currentUser = userRepository.findById(participantsId.get(i));
+                String name = currentUser.get().getName();
+                winners.add(j, name);
+                j++;
+            }
+        }
+
+        GetWeekLatestStatsResDto result = GetWeekLatestStatsResDto.builder()
+                .winners(winners)
+                .result(counts)
+                .build();
+
+        return result;
     }
 }
