@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 public class GetMonthAllLatestStatsReqDto {
 
     private String token;
+    private String category;
 
     @Builder
-    public GetMonthAllLatestStatsReqDto(String token) {
+    public GetMonthAllLatestStatsReqDto(String token, String category) {
         this.token = token;
+        this.category = category;
     }
 }

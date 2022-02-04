@@ -20,16 +20,16 @@ public class StatsController {
 
     private final StatsService statsService;
 
-    @PostMapping("/month/all/latest")
-    public ResponseEntity<ResponseDto> getMonthAllLatestStats(@RequestBody GetMonthAllLatestStatsReqDto getMonthAllLatestStatsReqDto) {
-        GetMonthAllLatestStatsResDto stats = statsService.getMonthAllLatestStats(getMonthAllLatestStatsReqDto.getToken());
+    @PostMapping("/month/latest")
+    public ResponseEntity<ResponseDto> getMonthLatestStats(@RequestBody GetMonthAllLatestStatsReqDto getMonthAllLatestStatsReqDto) {
+        GetMonthAllLatestStatsResDto stats = statsService.getMonthLatestStats(getMonthAllLatestStatsReqDto.getToken(), getMonthAllLatestStatsReqDto.getCategory());
 
-        log.info("/api/stats/month/all/latest");
+        log.info("/api/stats/month/latest");
 
         return ResponseEntity.status(200).body(
                 ResponseDto.builder()
                         .status(200)
-                        .message("이번달 월간 전체 통계")
+                        .message("이번달 월간 통계")
                         .data(stats)
                         .build()
         );
