@@ -7,5 +7,5 @@ import java.time.LocalDateTime;
 
 public interface StatsRepository extends JpaRepository<Stats, Long> {
 
-    Long countByUserIdAndCategoryAndCreatedAtBetween(Long userId, String category, LocalDateTime start, LocalDateTime end);
+    int countByUserIdAndCategoryAndCreatedAtBetween(Long userId, String category, LocalDateTime start, LocalDateTime end);
 }

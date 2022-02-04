@@ -1,10 +1,13 @@
 package joon.homework.service;
 
 import joon.homework.dto.stats.response.GetMonthLatestStatsResDto;
+import joon.homework.dto.stats.response.GetMonthPassedResDto;
 import joon.homework.dto.stats.response.GetWeekLatestStatsResDto;
 import joon.homework.dto.stats.response.NameAndCount;
+import joon.homework.entity.MonthStats;
 import joon.homework.entity.Participate;
 import joon.homework.entity.User;
+import joon.homework.repository.MonthStatsRepository;
 import joon.homework.repository.ParticipateRepository;
 import joon.homework.repository.StatsRepository;
 import joon.homework.repository.UserRepository;
@@ -27,6 +30,7 @@ public class StatsService {
     private final StatsRepository statsRepository;
     private final UserRepository userRepository;
     private final ParticipateRepository participateRepository;
+    private final MonthStatsRepository monthStatsRepository;
     private final AuthService authService;
 
     public GetMonthLatestStatsResDto getMonthLatestStats(String token, String category) {
@@ -58,12 +62,12 @@ public class StatsService {
 
         List<NameAndCount> nameAndCountList = new ArrayList<>();
 
-        Long max = 0L;
+        int max = 0;
 
         for(int i=0; i<participantsId.size(); i++) {
             Optional<User> currentUser = userRepository.findById(participantsId.get(i));
             String name = currentUser.get().getName();
-            Long count = statsRepository.countByUserIdAndCategoryAndCreatedAtBetween(participantsId.get(i), category, start, end);
+            int count = statsRepository.countByUserIdAndCategoryAndCreatedAtBetween(participantsId.get(i), category, start, end);
             if(count > max) {
                 max = count;
             }
@@ -127,9 +131,9 @@ public class StatsService {
         }
 
         List<List<NameAndCount>> counts = new ArrayList<>();
-        Long[] totals = new Long[participantsId.size()];
+        int[] totals = new int[participantsId.size()];
         for(int j=0; j<participantsId.size(); j++) {
-            totals[j] = 0L;
+            totals[j] = 0;
         }
 
         for(int i=0; i<7; i++) {
@@ -143,7 +147,7 @@ public class StatsService {
             for(int j=0; j<participantsId.size(); j++) {
                 Optional<User> currentUser = userRepository.findById(participantsId.get(j));
                 String name = currentUser.get().getName();
-                Long count = statsRepository.countByUserIdAndCategoryAndCreatedAtBetween(participantsId.get(j), category, from, to);
+                int count = statsRepository.countByUserIdAndCategoryAndCreatedAtBetween(participantsId.get(j), category, from, to);
                 totals[j] += count;
                 NameAndCount nameAndCount = NameAndCount.builder()
                         .userId(participantsId.get(j))
@@ -158,7 +162,7 @@ public class StatsService {
             start = start.plusDays(1);
         }
 
-        Long max = 0L;
+        int max = 0;
         for(int i=0; i<totals.length; i++) {
             if(totals[i] > max) {
                 max = totals[i];
@@ -183,5 +187,62 @@ public class StatsService {
                 .build();
 
         return result;
+    }
+
+    public int getMonthPassedMax(String token) {
+        authService.verifyToken(token);
+
+        Long userId = jwtUtil.getId(token);
+        Optional<User> user = userRepository.findById(userId);
+
+        Participate participate = participateRepository.findByUserId(user.get().getId());
+
+        Long roomId = participate.getRoomId();
+
+        List<MonthStats> monthStatsList = monthStatsRepository.findAllByRoomId(roomId);
+
+        int max = 0;
+        for(int i=0; i<monthStatsList.size(); i++) {
+            if(max < monthStatsList.get(i).getPassed()) {
+                max = monthStatsList.get(i).getPassed();
+            }
+        }
+
+        return max;
+    }
+
+    public GetMonthPassedResDto getMonthPassed(String token, int passed) {
+        authService.verifyToken(token);
+
+        Long userId = jwtUtil.getId(token);
+        Optional<User> user = userRepository.findById(userId);
+
+        Participate participate = participateRepository.findByUserId(user.get().getId());
+
+        Long roomId = participate.getRoomId();
+
+        List<MonthStats> monthStatsList = monthStatsRepository.findAllByRoomIdAndPassed(roomId, passed);
+
+        List<String> winners = new ArrayList<>();
+        List<NameAndCount> nameAndCountList = new ArrayList<>();
+
+        for(int i=0; i<monthStatsList.size(); i++) {
+            MonthStats monthStats = monthStatsList.get(i);
+            NameAndCount nameAndCount = NameAndCount.builder()
+                    .userId(monthStats.getUserId())
+                    .name(monthStats.getUserName())
+                    .count(monthStats.getCount())
+                    .build();
+            nameAndCountList.add(i, nameAndCount);
+        }
+
+        winners.add(0, monthStatsList.get(0).getWinner());
+
+        GetMonthPassedResDto getMonthPassedResDto = GetMonthPassedResDto.builder()
+                .winners(winners)
+                .result(nameAndCountList)
+                .build();
+
+        return getMonthPassedResDto;
     }
 }
