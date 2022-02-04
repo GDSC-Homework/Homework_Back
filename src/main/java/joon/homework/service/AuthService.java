@@ -22,22 +22,15 @@ public class AuthService {
 
     public String googleLogin(String idToken) {
         String jwt;
-//        UserInfoDto userInfoDto = googleService.getUserInfoByIdToken(idToken);
-//
-//        User user = userRepository.findByEmail(userInfoDto.getEmail());
+        UserInfoDto userInfoDto = googleService.getUserInfoByIdToken(idToken);
 
-        User user = userRepository.findByEmail("orijoon98@gmail.com");
+        User user = userRepository.findByEmail(userInfoDto.getEmail());
 
         if(user == null) {
-//            user = User.builder()
-//                    .name(userInfoDto.getName())
-//                    .email(userInfoDto.getEmail())
-//                    .picture(userInfoDto.getPicture())
-//                    .build();
             user = User.builder()
-                    .name("공혁준")
-                    .email("orijoon98@gmail.com")
-                    .picture("")
+                    .name(userInfoDto.getName())
+                    .email(userInfoDto.getEmail())
+                    .picture(userInfoDto.getPicture())
                     .build();
 
             userRepository.save(user);
