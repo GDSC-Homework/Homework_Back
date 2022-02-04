@@ -8,13 +8,13 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class GetMonthAllLatestStatsResDto {
+public class GetMonthLatestStatsResDto {
 
     private List<String> winners;
     private List<NameAndCount> result;
 
     @Builder
-    public GetMonthAllLatestStatsResDto(List<String> winners, List<NameAndCount> result) {
+    public GetMonthLatestStatsResDto(List<String> winners, List<NameAndCount> result) {
         this.winners = winners;
         this.result = result;
     }

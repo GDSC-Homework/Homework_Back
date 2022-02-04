@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class GetMonthAllLatestStatsReqDto {
+public class GetMonthLatestStatsReqDto {
 
     private String token;
     private String category;
 
     @Builder
-    public GetMonthAllLatestStatsReqDto(String token, String category) {
+    public GetMonthLatestStatsReqDto(String token, String category) {
         this.token = token;
         this.category = category;
     }
