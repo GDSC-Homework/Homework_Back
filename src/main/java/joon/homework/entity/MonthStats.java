@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -39,5 +40,7 @@ public class MonthStats extends BaseEntity {
         this.userId = userId;
         this.userName = userName;
         this.count = count;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 }
